@@ -31,9 +31,9 @@ func (a *App) handleTable(w http.ResponseWriter, req *http.Request) {
 	log.DefaultLogger.Info("Exec SQL: %d", sql)
 	data, err := handleProxyQuery(sql, ds)
 	if err != nil {
-		fmt.Println("Query error:", err)
+		log.DefaultLogger.Error("Query failed", "error", err)
 	} else {
-		fmt.Println("Query result:", string(data))
+		log.DefaultLogger.Info("Query succeeded", "bytes", len(data))
 	}
 	JSONResponse(w, http.StatusOK, data)
 }
@@ -48,9 +48,9 @@ func (a *App) handleDatabase(w http.ResponseWriter, req *http.Request) {
 	log.DefaultLogger.Info("Exec SQL: %d", sql)
 	data, err := handleProxyQuery(sql, ds)
 	if err != nil {
-		fmt.Println("Query error:", err)
+		log.DefaultLogger.Error("Query failed", "error", err)
 	} else {
-		fmt.Println("Query result:", string(data))
+		log.DefaultLogger.Info("Query succeeded", "bytes", len(data))
 	}
 	JSONResponse(w, http.StatusOK, data)
 
@@ -67,9 +67,9 @@ func (a *App) handleFields(w http.ResponseWriter, req *http.Request) {
 
 	data, err := handleProxyQuery(sql, ds)
 	if err != nil {
-		fmt.Println("Query error:", err)
+		log.DefaultLogger.Error("Query failed", "error", err)
 	} else {
-		fmt.Println("Query result:", string(data))
+		log.DefaultLogger.Info("Query succeeded", "bytes", len(data))
 	}
 	JSONResponse(w, http.StatusOK, data)
 }
@@ -88,9 +88,9 @@ func (a *App) handleIndexes(w http.ResponseWriter, req *http.Request) {
 	log.DefaultLogger.Info("Exec SQL: %d", sql)
 	data, err := handleProxyQuery(sql, ds)
 	if err != nil {
-		fmt.Println("Query error:", err)
+		log.DefaultLogger.Error("Query failed", "error", err)
 	} else {
-		fmt.Println("Query result:", string(data))
+		log.DefaultLogger.Info("Query succeeded", "bytes", len(data))
 	}
 	JSONResponse(w, http.StatusOK, data)
 }
