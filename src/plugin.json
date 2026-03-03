@@ -2,11 +2,12 @@
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "app",
   "name": "Doris App",
-  "id": "doris-app",
+  "id": "velodb-doris-app",
   "backend": false,
-  "executable": "gpx_doris-app",
   "info": {
-    "keywords": ["app"],
+    "keywords": [
+      "app"
+    ],
     "description": "",
     "author": {
       "name": "VeloDB"
@@ -15,12 +16,16 @@
       "small": "img/logo.svg",
       "large": "img/logo.svg"
     },
-    "screenshots": [],
+    "screenshots": [
+      {
+        "name": "Discover",
+        "path": "img/doris-app.png"
+      }
+    ],
     "version": "%VERSION%",
     "updated": "%TODAY%"
   },
   "includes": [
-
     {
       "type": "page",
       "name": "Discover",
@@ -39,7 +44,7 @@
       "type": "page",
       "icon": "cog",
       "name": "Configuration",
-      "path": "/plugins/doris-app",
+      "path": "/plugins/%PLUGIN_ID%",
       "role": "Admin",
       "addToNav": true
     }

@@ -43,15 +43,38 @@ export function hasReadme() {
   return fs.existsSync(path.resolve(process.cwd(), SOURCE_DIR, 'README.md'));
 }
 
+function globFiles(pattern: string, options: { absolute: boolean }): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    const done = (error: Error | null, matches?: string[]) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      resolve(matches ?? []);
+    };
+
+    try {
+      const result = (glob as unknown as (...args: unknown[]) => unknown)(pattern, options, done);
+
+      // glob@10+ returns Promise<string[]>, glob@7 uses callback API.
+      if (result && typeof (result as Promise<string[]>).then === 'function') {
+        (result as Promise<string[]>).then((matches) => done(null, matches)).catch((error) => done(error as Error));
+      }
+    } catch (error) {
+      reject(error as Error);
+    }
+  });
+}
+
 // Support bundling nested plugins by finding all plugin.json files in src directory
 // then checking for a sibling module.[jt]sx? file.
 export async function getEntries() {
-  const pluginsJson = await glob('**/src/**/plugin.json', { absolute: true });
+  const pluginsJson = await globFiles('**/src/**/plugin.json', { absolute: true });
 
   const plugins = await Promise.all(
     pluginsJson.map((pluginJson) => {
       const folder = path.dirname(pluginJson);
-      return glob(`${folder}/module.{ts,tsx,js,jsx}`, { absolute: true });
+      return globFiles(`${folder}/module.{ts,tsx,js,jsx}`, { absolute: true });
     })
   );
 
