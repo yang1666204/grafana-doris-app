@@ -20,4 +20,5 @@ jobs:
       - uses: grafana/plugin-actions/build-plugin@main
         with:
           policy_token: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
+          node-version: '22'
           attestation: true
